@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.*;
 
 //for maze we need to move , jump pits, keep track of moves, and have alerts at set move levels ....
 // win scenario (if we fix map) lose scenario, and quit option ...
@@ -8,8 +9,9 @@ public class MazeRunner {
     public static Maze myMap = new Maze();
     public static String wall = "Sorry, you've hit a wall.";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         welcome();
+        Thread.sleep(3000);
         intro();
         userMove();
 
@@ -33,6 +35,7 @@ public class MazeRunner {
                 "|.  \\    /:  |/   /  \\\\  (:   / \"\\(:      \"|    |:  __   \\ /\\\\ __ //\\|    \\    \\ |    \\    \\ (:      \"|:  __   \\  \n" +
                 "|___|\\__/|___(___/    \\___)_______)\\_______)    |__|  \\___|__________)\\___|\\____\\)\\___|\\____\\)\\_______)__|  \\___) \n" +
                 "                                                                                                                  ");
+        print("Type STOP or EXIT to leave the game at any time");
     }
 
     public static void intro() {
@@ -42,8 +45,9 @@ public class MazeRunner {
 
     public static void userMove() {
         Scanner input = new Scanner(System.in);
+        print("You have moved " + moves + " time(s).");
         print("Where would you like to move? (R, L, U, D) ");
-        String move = input.next();
+        String move = input.next().toUpperCase();
         switch(move) {
             case "L":
                 print("You chose to go left.");
@@ -85,9 +89,9 @@ public class MazeRunner {
                     print(wall);
                 }
                 break;
-            case "stop":
-            case "exit":
-            case "quit":
+            case "STOP":
+            case "EXIT":
+            case "QUIT":
                 print("Game over.");
                 System.exit(0);
                 break;
@@ -108,13 +112,13 @@ public class MazeRunner {
     public static void movesMessage() {
         MazeRunner.moves++;
         if (MazeRunner.moves == 50) {
-            print("Warning: You have made 50 moves. You have 50 remaining before the maze exit closes.");
+            System.err.println("Warning: You have made 50 moves. You have 50 remaining before the maze exit closes.");
         } else if (MazeRunner.moves == 75) {
-            print("Alert! You have made 75 moves. You only have 25 moves left to escape.");
+            System.err.println("Alert! You have made 75 moves. You only have 25 moves left to escape.");
         } else if (MazeRunner.moves == 90) {
-            print("DANGER! You have made 90 moves. You only have 10 moves left to escape!");
-        } else if (MazeRunner.moves == 100) {
-            print("Oh no! You took too long to escape, and now the maze exit is closed FOREVER >:[");
+            System.err.println("DANGER! You have made 90 moves. You only have 10 moves left to escape!");
+        } else if (MazeRunner.moves >= 100) {
+            System.err.println("Oh no! You took too long to escape, and now the maze exit is closed FOREVER >:[");
             print("Sorry, but you didn't escape in time- you lose!");
             System.exit(0);
         } else {
@@ -128,13 +132,13 @@ public class MazeRunner {
         String response = input.nextLine();
         if(response.toLowerCase().startsWith("y")) {
             myMap.jumpOverPit(dir);
+            moves++;
             print("You jumped over a pit!");
         } else {
             userMove();
         }
 
     }
-
 
     public static void print(String text) {
         System.out.println(text);
