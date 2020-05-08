@@ -163,7 +163,7 @@ public class Maze {
         } else {
             throw new IllegalArgumentException("ERROR: You cannot move that way");
         }
-        //printMap(myMap);
+        printMap(myMap);
     }
 
     /**
@@ -295,7 +295,7 @@ public class Maze {
         solution[6][4] = '0';
         solution[15][4] = '0';
         solution[9][10] = '0';
-        solution[13][17] = '0';
+//        solution[13][17] = '0';
         solution[13][15] = '0';
         solution[18][10] = '0';
     }
