@@ -1,8 +1,12 @@
 import java.util.*;
 
+//for maze we need to move , jump pits, keep track of moves, and have alerts at set move levels ....
+// win scenario (if we fix map) lose scenario, and quit option ...
+
 public class MazeRunner {
     public static int moves = 0;
     public static Maze myMap = new Maze();
+    public static String wall = "Sorry, you've hit a wall.";
 
     public static void main(String[] args) {
         welcome();
@@ -13,14 +17,22 @@ public class MazeRunner {
     }
 
     public static void welcome() {
-        System.out.println(" __   __  ___  _______ ___      ______   ______  ___      ___  _______      ___________ ______        ___      ___      __    ________   _______       _______  ____  ____ _____  ___  _____  ___   _______  _______   \n" +
-                "|\"  |/  \\|  \"|/\"     \"|\"  |    /\" _  \"\\ /    \" \\|\"  \\    /\"  |/\"     \"|    (\"     _   \")    \" \\      |\"  \\    /\"  |    /\"\"\\  (\"      \"\\ /\"     \"|     /\"      \\(\"  _||_ \" (\\\"   \\|\"  \\(\\\"   \\|\"  \\ /\"     \"|/\"      \\  \n" +
-                "|'  /    \\:  (: ______)|  |   (: ( \\___)/ ____  \\\\   \\  //   (: ______)     )__/  \\\\__// ____  \\      \\   \\  //   |   /    \\  \\___/   :|: ______)    |:        |   (  ) : |.\\\\   \\    |.\\\\   \\    (: ______):        | \n" +
-                "|: /'        |\\/    | |:  |    \\/ \\   /  /    ) :)\\\\  \\/.    |\\/    |          \\\\_ / /  /    ) :)     /\\\\  \\/.    |  /' /\\  \\   /  ___/ \\/    |      |_____/   |:  |  | . ): \\.   \\\\  |: \\.   \\\\  |\\/    | |_____/   ) \n" +
-                " \\//  /\\'    |// ___)_ \\  |___ //  \\ (: (____/ //: \\.        |// ___)_         |.  |(: (____/ //     |: \\.        | //  __'  \\ //  \\__  // ___)_      //      / \\\\ \\__/ //|.  \\    \\. |.  \\    \\. |// ___)_ //      /  \n" +
-                " /   /  \\\\   (:      \"( \\_|:  (:   _) \\        /|.  \\    /:  (:      \"|        \\:  | \\        /      |.  \\    /:  |/   /  \\\\  (:   / \"\\(:      \"|    |:  __   \\ /\\\\ __ //\\|    \\    \\ |    \\    \\ (:      \"|:  __   \\  \n" +
-                "|___/    \\___|\\_______)\\_______)_______)\"_____/ |___|\\__/|___|\\_______)         \\__|  \\\"_____/       |___|\\__/|___(___/    \\___)_______)\\_______)    |__|  \\___|__________)\\___|\\____\\)\\___|\\____\\)\\_______)__|  \\___) \n" +
-                "                                                                                                                                                                                                                       \n");
+//        System.out.println(" __   __  ___  _______ ___      ______   ______  ___      ___  _______      ___________ ______    \n" +
+//                "|\"  |/  \\|  \"|/\"     \"|\"  |    /\" _  \"\\ /    \" \\|\"  \\    /\"  |/\"     \"|    (\"     _   \")    \" \\   \n" +
+//                "|'  /    \\:  (: ______)|  |   (: ( \\___)/ ____  \\\\   \\  //   (: ______)     )__/  \\\\__// ____  \\  \n" +
+//                "|: /'        |\\/    | |:  |    \\/ \\   /  /    ) :)\\\\  \\/.    |\\/    |          \\\\_ / /  /    ) :) \n" +
+//                " \\//  /\\'    |// ___)_ \\  |___ //  \\ (: (____/ //: \\.        |// ___)_         |.  |(: (____/ //  \n" +
+//                " /   /  \\\\   (:      \"( \\_|:  (:   _) \\        /|.  \\    /:  (:      \"|        \\:  | \\        /   \n" +
+//                "|___/    \\___|\\_______)\\_______)_______)\"_____/ |___|\\__/|___|\\_______)         \\__|  \\\"_____/    \n" +
+//                "                                                                                                  \n" +
+//                " ___      ___      __    ________   _______       _______  ____  ____ _____  ___  _____  ___   _______  _______   \n" +
+//                "|\"  \\    /\"  |    /\"\"\\  (\"      \"\\ /\"     \"|     /\"      \\(\"  _||_ \" (\\\"   \\|\"  \\(\\\"   \\|\"  \\ /\"     \"|/\"      \\  \n" +
+//                " \\   \\  //   |   /    \\  \\___/   :|: ______)    |:        |   (  ) : |.\\\\   \\    |.\\\\   \\    (: ______):        | \n" +
+//                " /\\\\  \\/.    |  /' /\\  \\   /  ___/ \\/    |      |_____/   |:  |  | . ): \\.   \\\\  |: \\.   \\\\  |\\/    | |_____/   ) \n" +
+//                "|: \\.        | //  __'  \\ //  \\__  // ___)_      //      / \\\\ \\__/ //|.  \\    \\. |.  \\    \\. |// ___)_ //      /  \n" +
+//                "|.  \\    /:  |/   /  \\\\  (:   / \"\\(:      \"|    |:  __   \\ /\\\\ __ //\\|    \\    \\ |    \\    \\ (:      \"|:  __   \\  \n" +
+//                "|___|\\__/|___(___/    \\___)_______)\\_______)    |__|  \\___|__________)\\___|\\____\\)\\___|\\____\\)\\_______)__|  \\___) \n" +
+//                "                                                                                                                  ");                                                                                               \n");
     }
 
     public static void intro() {
@@ -37,49 +49,47 @@ public class MazeRunner {
                 print("You chose to go left.");
                 if (myMap.canIMoveLeft()) {
                     myMap.moveLeft();
-//                    myMap.printMap();
                 } else if (myMap.isThereAPit("L")) {
-                    myMap.jumpOverPit("L");
-                    print("You jumped over a pit!");
+                    navigatePit("L");
                 } else {
-                    print("Sorry, you've hit a wall.");
+                    print(wall);
                 }
                 break;
             case "R":
                 print("You chose to go right.");
                 if (myMap.canIMoveRight()) {
                     myMap.moveRight();
-//                    myMap.printMap();
                 } else if (myMap.isThereAPit("R")) {
-                    myMap.jumpOverPit("R");
-                    print("You jumped over a pit!");
+                    navigatePit("R");
                 } else {
-                    print("Sorry, you've hit a wall.");
+                    print(wall);
                 }
                 break;
             case "U":
                 print("You chose to go up.");
                 if (myMap.canIMoveUp()) {
                     myMap.moveUp();
-//                    myMap.printMap();
                 } else if (myMap.isThereAPit("U")) {
-                    myMap.jumpOverPit("U");
-                    print("You jumped over a pit!");
+                    navigatePit("U");
                 } else {
-                    print("Sorry, you've hit a wall.");
+                    print(wall);
                 }
                 break;
             case "D":
                 print("You chose to go down.");
                 if (myMap.canIMoveDown()) {
                     myMap.moveDown();
-//                    myMap.printMap();
                 } else if (myMap.isThereAPit("D")) {
-                    myMap.jumpOverPit("D");
-                    print("You jumped over a pit!");
+                    navigatePit("D");
                 } else {
-                    print("Sorry, you've hit a wall.");
+                    print(wall);
                 }
+                break;
+            case "stop":
+            case "exit":
+            case "quit":
+                print("Game over.");
+                System.exit(0);
                 break;
             default:
                 print("Please try again.");
@@ -87,6 +97,8 @@ public class MazeRunner {
         }
         if(myMap.didIWin()) {
             print("Congratulations, you made it out alive!");
+            print("And you did it in " + moves + " moves!");
+            System.exit(0);
         } else {
             movesMessage();
             userMove();
@@ -103,10 +115,24 @@ public class MazeRunner {
             print("DANGER! You have made 90 moves. You only have 10 moves left to escape!");
         } else if (MazeRunner.moves == 100) {
             print("Oh no! You took too long to escape, and now the maze exit is closed FOREVER >:[");
+            print("Sorry, but you didn't escape in time- you lose!");
             System.exit(0);
         } else {
             userMove();
         }
+    }
+
+    public static void navigatePit(String dir) {
+        Scanner input = new Scanner(System.in);
+        print("Watch out! There's a pit ahead, jump it?");
+        String response = input.nextLine();
+        if(response.toLowerCase().startsWith("y")) {
+            myMap.jumpOverPit(dir);
+            print("You jumped over a pit!");
+        } else {
+            userMove();
+        }
+
     }
 
 
